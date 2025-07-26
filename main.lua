@@ -145,14 +145,30 @@ function love.load()
 
 	pieceType = 1
 	pieceRotation = 1
+  pieceX = 3
+  pieceY = 0
 end
 
 function love.update() end
 
+function love.keypressed(key)
+	if key == "x" then
+		pieceRotation = pieceRotation + 1
+		if pieceRotation > #pieceStructures[pieceType] then
+			pieceRotation = 1
+		end
+	elseif key == "z" then
+		pieceRotation = pieceRotation - 1
+		if pieceRotation < 1 then
+			pieceRotation = #pieceStructures[pieceType]
+		end
+	end
+end
+
 function love.draw()
 	local function drawBlock(block, x, y)
 		local colors = {
-      [' '] = {.87, .87, .87},
+			[" "] = { 0.87, 0.87, 0.87 },
 			i = { 0.47, 0.76, 0.94 },
 			j = { 0.93, 0.91, 0.42 },
 			l = { 0.49, 0.85, 0.76 },
@@ -171,7 +187,7 @@ function love.draw()
 
 	for y = 1, gridYCount do
 		for x = 1, gridXCount do
-      drawBlock(inert[y][x],x,y)
+			drawBlock(inert[y][x], x, y)
 		end
 	end
 
@@ -179,7 +195,7 @@ function love.draw()
 		for x = 1, 4 do
 			local block = pieceStructures[pieceType][pieceRotation][y][x]
 			if block ~= " " then
-        drawBlock(block,x,y)
+				drawBlock(block, x, y)
 			end
 		end
 	end
